@@ -1,0 +1,40 @@
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./database.db
+      - LLM_API_KEY=${LLM_API_KEY?Not set}
+      - JWT_SECRET=${JWT_SECRET?Not set}
+    volumes:
+      - ./backend/database.db:/app/backend/database.db
+    networks:
+      - app-network
+
+  frontend-dev:
+    image: oven/bun:1
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend:/app/frontend
+    ports:
+      - "5173:5173"
+    command: sh -c "bun install && bun run dev -- --host"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
