@@ -17,6 +17,18 @@ class Base(DeclarativeBase):
     pass
 
 
+async def init_db():
+    """
+    Создаёт все таблицы при старте приложения.
+    Вызывается из lifespan в main.py.
+    Безопасно — не трогает уже существующие таблицы.
+    """
+    import app.models
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+
 async def get_db():
     """Dependency — передаётся в роутеры через Depends(get_db)."""
     async with AsyncSessionLocal() as db:

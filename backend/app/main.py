@@ -2,25 +2,27 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.database import init_db
 from app.ml.state import ml_models
 from app.routers import health, recommend, professions, roadmap, auth
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Выполняется один раз при старте приложения.
-    Здесь загружаем ML модели в память — чтобы не делать это на каждый запрос.
-    Обучать модели здесь не нужно, только загружать готовые файлы.
-    """
-    print("Запуск приложения — загружаем ML модели...")
+    # 1. Создаём таблицы если их нет
+    print("Инициализация базы данных...")
+    await init_db()
+ 
+    # 2. Загружаем ML модели в память
+    print("Загружаем ML модели...")
     await ml_models.load()
-    print("Модели загружены, приложение готово к работе")
-
+    print("Приложение готово к работе")
+ 
     yield
-
-    print("Остановка приложения — очищаем ресурсы...")
+ 
+    print("Остановка — очищаем ресурсы...")
     ml_models.clear()
+
 
 
 app = FastAPI(
@@ -42,7 +44,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Подключаем роутеры
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(recommend.router)

@@ -11,7 +11,7 @@ services:
       - LLM_API_KEY=${LLM_API_KEY?Not set}
       - JWT_SECRET=${JWT_SECRET?Not set}
     volumes:
-      - ./backend/database.db:/app/backend/database.db
+      - ./backend/data:/app/data
     networks:
       - app-network
 

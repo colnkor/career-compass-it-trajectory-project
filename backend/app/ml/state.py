@@ -1,64 +1,36 @@
-import pickle
 from pathlib import Path
+from app.ml.recommender import CareerRecommender
 
-# Путь к папке с обученными моделями
 MODELS_DIR = Path(__file__).parent / "trained"
+RECOMMENDER_PATH = MODELS_DIR / "recommender.pkl"
 
 
 class MLModels:
     """
     Хранилище ML моделей в памяти приложения.
-
-    Модели загружаются один раз при старте через lifespan,
-    и живут всё время работы сервера.
-
-    Обучать модели здесь не нужно — только загружать готовые .pkl файлы.
-    Обучение происходит отдельно (ноутбук / train.py скрипт).
+    Не знает как работает пайплайн — только загружает и отдаёт.
     """
 
     def __init__(self):
-        self.tfidf_vectorizer = None   # TF-IDF векторизатор
-        self.knn_model = None          # KNN классификатор
-        self.profession_labels = None  # Список профессий (индексы → названия)
+        self.recommender: CareerRecommender | None = None
         self._loaded = False
 
     async def load(self):
-        """Загружает модели из файлов. Вызывается один раз в lifespan."""
-
-        if not MODELS_DIR.exists():
-            print(f"Папка с моделями не найдена: {MODELS_DIR}")
-            print("   Запускаем в режиме без ML — рекомендации недоступны")
+        if not RECOMMENDER_PATH.exists():
+            print(f"Файл модели не найден: {RECOMMENDER_PATH}")
+            print("   Обучи модель в Colab и положи recommender.pkl в app/ml/trained/")
             return
 
-        try:
-            with open(MODELS_DIR / "tfidf.pkl", "rb") as f:
-                self.tfidf_vectorizer = pickle.load(f)
-
-            with open(MODELS_DIR / "knn.pkl", "rb") as f:
-                self.knn_model = pickle.load(f)
-
-            with open(MODELS_DIR / "labels.pkl", "rb") as f:
-                self.profession_labels = pickle.load(f)
-
-            self._loaded = True
-            print(f"   Загружено профессий: {len(self.profession_labels)}")
-
-        except FileNotFoundError as e:
-            print(f"Файл модели не найден: {e}")
-            print("   Запускаем без ML — обучите модели перед запуском")
+        self.recommender = CareerRecommender.load(str(RECOMMENDER_PATH))
+        self._loaded = True
 
     def clear(self):
-        """Очищает модели при остановке приложения."""
-        self.tfidf_vectorizer = None
-        self.knn_model = None
-        self.profession_labels = None
+        self.recommender = None
         self._loaded = False
 
     @property
     def is_ready(self) -> bool:
-        """Проверяет, загружены ли модели."""
         return self._loaded
 
 
-# Единственный экземпляр — импортируется везде где нужен
 ml_models = MLModels()
