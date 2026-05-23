@@ -1,0 +1,312 @@
+{
+  "phases": [
+    {
+      "profession_id": 4,
+      "description": "Вы научитесь разрабатывать веб-интерфейсы с помощью HTML, CSS, JavaScript и Git",
+      "title": "Фундамент веб-интерфейсов",
+      "order": 1,
+      "topics": [
+        {
+          "title": "HTML",
+          "resources": "www.w3schools.com, developer.mozilla.org, htmlacademy.ru",
+          "description": "HTML расшифровывается как HyperText Markup Language (язык гипертекстовой разметки). Он используется на стороне клиента и задаёт структуру веб-страницы, которую можно стилизовать с помощью CSS и сделать интерактивной с помощью JavaScript.",
+          "order": 1
+        },
+        {
+          "title": "CSS",
+          "resources": "www.w3schools.com, developer.mozilla.org, htmlacademy.ru",
+          "description": "CSS, или каскадные таблицы стилей, — это язык, используемый для оформления интерфейса любого веб-сайта. CSS является основополагающей технологией Всемирной паутины, наряду с HTML и JavaScript.",
+          "order": 2
+        },
+        {
+          "title": "JavaScript",
+          "resources": "www.w3schools.com, developer.mozilla.org, htmlacademy.ru",
+          "description": "JavaScript позволяет добавлять интерактивность на ваши страницы. Распространенные примеры, которые вы могли видеть на веб-сайтах, — это слайдеры, интерактивные элементы при клике, всплывающие окна и так далее.",
+          "order": 3
+        },
+        {
+          "title": "Git",
+          "resources": "www.w3schools.com/git/, www.geeksforgeeks.org/git/git-tutorial/",
+          "description": "Git — это бесплатная распределенная система контроля версий с открытым исходным кодом, предназначенная для быстрой и эффективной обработки проектов любого масштаба, от небольших до очень крупных.",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "profession_id": 4,
+      "description": "За эту фазу научитесь создавать серверную логику на Node.js, проектировать базы данных и писать запросы в SQL/PostgreSQL, а также настраивать обмен данными между компонентами программ через REST API в формате JSON.",
+      "title": "Фундамент серверной части",
+      "order": 2,
+      "topics": [
+        {
+          "title": "Node.js",
+          "resources": "https://nodejs.org/en/about/, https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
+          "description": "Node.js - это среда выполнения JavaScript с открытым исходным кодом и кроссплатформенная. Это популярный инструмент практически для любого типа проектов! Node.js запускает движок JavaScript V8, ядро ​​Google Chrome, вне браузера. Это позволяет Node.js быть очень производительным. Приложение Node.js работает в одном процессе, не создавая новый поток для каждого запроса. Node.js предоставляет набор асинхронных примитивов ввода-вывода в своей стандартной библиотеке, которые предотвращают блокировку кода JavaScript, и, как правило, библиотеки Node.js написаны с использованием неблокирующих парадигм, поэтому блокирующее поведение является скорее исключением, чем правилом.",
+          "order": 1
+        },
+        {
+          "title": "SQL",
+          "resources": "https://www.sqltutorial.org/, https://metanit.com/sql/, https://www.w3schools.com/sql/",
+          "description": "SQL (Structured Query Language) - это язык программирования, используемый для управления и обработки данных, хранящихся в реляционных системах управления базами данных (СУБД). Он позволяет извлекать, вставлять, обновлять и удалять данные, а также определять схемы баз данных и контролировать доступ к данным. Базовое понимание SQL является основополагающим для взаимодействия практически с любой базой данных.",
+          "order": 2
+        },
+        {
+          "title": "PostgreSQL",
+          "resources": "https://www.postgresql.org/, https://www.postgresqltutorial.com/",
+          "description": "PostgreSQL, также известный как Postgres, - это бесплатная реляционная система управления базами данных с открытым исходным кодом, ориентированная на расширяемость и соответствие стандарту SQL.",
+          "order": 3
+        },
+        {
+          "title": "JSON",
+          "resources": "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Scripting/JSON, http://www.w3schools.com/js/js_json.asp",
+          "description": "JSON (JavaScript Object Notation) - это легковесный текстовый формат для структурирования и обмена данными. Широко используется в веб-API для передачи данных между сервером и приложением, он не зависит от языка программирования, но использует привычные для языка C соглашения.",
+          "order": 4
+        },
+        {
+          "title": "REST API",
+          "resources": "https://metanit.com/web/nodejs/4.11.php, https://www.w3schools.com/nodeJs/nodejs_rest_api.asp",
+          "description": "REST, или REpresentational State Transfer (передача репрезентативного состояния), - это архитектурный стиль, обеспечивающий стандарты взаимодействия между компьютерными системами в сети Интернет, что упрощает обмен данными между системами.",
+          "order": 5
+        }
+      ]
+    },
+    {
+      "profession_id": 4,
+      "description": "Вы выберете один из фронтенд-фреймворков (React, Vue или Angular), освоите бэкенд на Fastify, NestJS или Express и усилите свои навыки программирования с помощью TypeScript.",
+      "title": "Специализация и экосистема фреймворков",
+      "order": 3,
+      "topics": [
+        {
+          "title": "Фреймворк для фронтенда",
+          "resources": "https://react.dev/, https://vuejs.org/guide/introduction, https://angular.dev/overview",
+          "description": "На этом этапе вы выберете один из трех главных инструментов индустрии — React, Vue или Angular. Вы перестанете писать код с нуля и перейдете к сборке сложных интерфейсов из готовых компонентов.",
+          "order": 1
+        },
+        {
+          "title": "TypeScript",
+          "resources": "https://www.typescriptlang.org/, https://www.w3schools.com/typescript/, https://habr.com/ru/articles/663964/",
+          "description": "TypeScript — это строго типизированный язык программирования, разработанный компанией Microsoft как надстройка (супермножество) над JavaScript. Весь код на JavaScript является валидным кодом на TypeScript. Главная задача языка — добавление статической типизации, что позволяет находить ошибки на этапе написания кода, а не во время работы программы.",
+          "order": 2
+        },
+        {
+          "title": "Фреймворк для бэкенда",
+          "resources": "https://expressjs.com/, https://fastify.io/docs/latest/, https://nestjs.com/",
+          "description": "На этом этапе вы выберете и освоите один из ключевых инструментов серверной разработки на JavaScript/TypeScript: гибкий Express, сверхбыстрый Fastify или мощный корпоративный NestJS.",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "profession_id": 4,
+      "description": "Вы будете разрабатывать полноценные Fullstack-проекты, связывая пользовательский интерфейс с серверной частью. Освоите инструменты автоматизации и деплоя",
+      "title": "Базовые инструменты fullstack-разработки",
+      "order": 4,
+      "topics": [
+        {
+          "title": "Разработка комплексных Fullstack-проектов",
+          "resources": "https://jwt.io/, https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/First_steps/Client-Server_overview, refactoring.guru",
+          "description": "Вы объедините фронтенд и бэкенд в единую экосистему. На этом этапе вы научитесь создавать полноценные веб-приложения с нуля, настраивать бесшовный обмен данными между клиентом и сервером, а также реализовывать сложную бизнес-логику для решения реальных задач пользователей.",
+          "order": 1
+        },
+        {
+          "title": "Контейнеризация с Docker и деплой",
+          "resources": "https://www.docker.com/, https://www.docker.com/101-tutorial/, https://habr.com/ru/companies/netologyru/articles/967546/, https://www.geeksforgeeks.org/devops/docker-tutorial/",
+          "description": "Вы перейдете от запуска проектов на своем компьютере к их публикации в сети. Вы освоите Docker, чтобы упаковывать приложения со всеми зависимостями в изолированные контейнеры. Это гарантирует, что ваш код будет одинаково стабильно работать как на компьютере разработчика, так как и на удаленном сервере (деплой).",
+          "order": 2
+        },
+        {
+          "title": "Автоматизация процессов (CI/CD)",
+          "resources": "https://habr.com/ru/articles/895946/, https://stepik.org/course/256064/, https://page.gitlab.com/habr-extension-ebook-scm-2021.html",
+          "description": "Вы узнаете, как автоматизировать рутинные процессы разработки по стандартам современных IT-компаний. Вы настроите конвейер CI/CD (непрерывная интеграция и доставка), который будет автоматически проверять ваш код на ошибки при каждом обновлении и мгновенно доставлять рабочую версию приложения на живой сервер.",
+          "order": 3
+        },
+        {
+          "title": "Тестирование и веб-безопасность",
+          "resources": "https://owasp.org/, https://jestjs.io/, https://rt-solar.ru/products/solar_appscreener/blog/6301/, https://habr.com/ru/articles/797643/",
+          "description": "Вы научитесь защищать свои проекты и гарантировать надежность их работы. Вы освоите написание автоматических тестов (unit-тесты, интеграционные тесты) для проверки всех функций приложения, а также разберете основы информационной безопасности: защиту от популярных сетевых атак, безопасное хранение паролей и шифрование данных.",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "profession_id": 4,
+      "description": "Резюме, собеседования и первые офферы",
+      "title": "Выход на рынок труда",
+      "order": 5,
+      "topics": [
+        {
+          "title": "Резюме",
+          "resources": "https://hh.ru, https://career.habr.com/, https://www.superjob.ru/",
+          "description": "Составь резюме под вакансии Junior, оформи профиль на площадках",
+          "order": 1
+        },
+        {
+          "title": "Подготовка к собеседованиям",
+          "resources": "https://leetcode.com/, https://www.codewars.com/",
+          "description": "Решай алгоритмические задачи на LeetCode/CodeWars, повтори ключевые темы прошлых разделов.",
+          "order": 2
+        },
+        {
+          "title": "Отклики и офферы",
+          "resources": "hh.ru",
+          "description": "Начинайте активный поиск работы и стажировки",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "profession_id": 6,
+      "description": "Вы научитесь создавать веб-страницы с помощью HTML и CSS, работать с системой контроля версий Git и создавать адаптивный дизайн",
+      "title": "Основы веб-разработки",
+      "order": 1,
+      "topics": [
+        {
+          "title": "HTML",
+          "resources": "www.w3schools.com, developer.mozilla.org, htmlacademy.ru",
+          "description": "HTML расшифровывается как HyperText Markup Language (язык гипертекстовой разметки). Он используется на стороне клиента и задаёт структуру веб-страницы.",
+          "order": 1
+        },
+        {
+          "title": "CSS",
+          "resources": "www.w3schools.com, developer.mozilla.org, htmlacademy.ru",
+          "description": "CSS, или каскадные таблицы стилей, — это язык, используемый для оформления интерфейса любого веб-сайта.",
+          "order": 2
+        },
+        {
+          "title": "Git",
+          "resources": "www.w3schools.com/git/, www.geeksforgeeks.org/git/git-tutorial/",
+          "description": "Git - это распределенная система контроля версий с открытым исходным кодом для обработки проектов любого масштаба.",
+          "order": 3
+        },
+        {
+          "title": "Адаптивная верстка",
+          "resources": "developer.mozilla.org, css-tricks.com",
+          "description": "Создание веб-страниц, которые корректно отображаются на различных устройствах и размерах экранов.",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "profession_id": 6,
+      "description": "Изучение современного JavaScript, работа с DOM и API, основы фреймворков",
+      "title": "JavaScript и фреймворки",
+      "order": 2,
+      "topics": [
+        {
+          "title": "JavaScript ES6+",
+          "resources": "www.w3schools.com, developer.mozilla.org, learn.javascript.ru",
+          "description": "Современный стандарт JavaScript с улучшенным синтаксисом и новыми возможностями.",
+          "order": 1
+        },
+        {
+          "title": "DOM",
+          "resources": "developer.mozilla.org, www.w3schools.com",
+          "description": "Document Object Model — программный интерфейс для HTML и XML документов, позволяющий изменять структуру, стиль и содержимое документа.",
+          "order": 2
+        },
+        {
+          "title": "API",
+          "resources": "developer.mozilla.org, www.postman.com",
+          "description": "Application Programming Interface — набор инструментов и протоколов для взаимодействия между различными программными компонентами.",
+          "order": 3
+        },
+        {
+          "title": "Фреймворк-основы",
+          "resources": "react.dev, vuejs.org, angular.io",
+          "description": "Основные концепции и принципы работы современных JavaScript фреймворков.",
+          "order": 4
+        },
+        {
+          "title": "React / Vue / Angular",
+          "resources": "react.dev, vuejs.org, angular.io",
+          "description": "Популярные JavaScript фреймворки для создания пользовательских интерфейсов.",
+          "order": 5
+        }
+      ]
+    },
+    {
+      "profession_id": 8,
+      "description": "Типизация кода, тестирование и современные CSS-фреймворки",
+      "title": "TypeScript и инструменты",
+      "order": 3,
+      "topics": [
+        {
+          "title": "TypeScript",
+          "resources": "www.typescriptlang.org, developer.mozilla.org",
+          "description": "TypeScript — это язык программирования, представляющий собой надмножество JavaScript с добавленной статической типизацией.",
+          "order": 1
+        },
+        {
+          "title": "Тесты",
+          "resources": "jestjs.io, testing-library.com, vitest.dev",
+          "description": "Написание тестов для проверки корректности работы кода: unit-тесты, интеграционные тесты.",
+          "order": 2
+        },
+        {
+          "title": "Tailwind",
+          "resources": "tailwindcss.com",
+          "description": "Tailwind CSS — utility-first CSS фреймворк для быстрой разработки пользовательских интерфейсов.",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "profession_id": 6,
+      "description": "Продвинутые фреймворки, создание проектов и деплой",
+      "title": "Продвинутые фреймворки и проекты",
+      "order": 4,
+      "topics": [
+        {
+          "title": "Next.js / Nuxt / Analog",
+          "resources": "nextjs.org, nuxt.com, analogjs.org",
+          "description": "Мета-фреймворки на основе React, Vue и Angular для создания полнофункциональных веб-приложений с SSR и другими возможностями.",
+          "order": 1
+        },
+        {
+          "title": "Пет-проекты",
+          "resources": "github.com",
+          "description": "Создание собственных проектов для закрепления знаний и пополнения портфолио.",
+          "order": 2
+        },
+        {
+          "title": "Деплой",
+          "resources": "vercel.com, netlify.com, github.com",
+          "description": "Размещение веб-приложений на хостинге, настройка CI/CD, работа с облачными платформами.",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "profession_id": 6,
+      "description": "Подготовка к трудоустройству: резюме, портфолио и собеседования",
+      "title": "Трудоустройство",
+      "order": 5,
+      "topics": [
+        {
+          "title": "Резюме",
+          "resources": "hh.ru, linkedin.com, habr.com",
+          "description": "Составление эффективного резюме, выделение ключевых навыков и опыта.",
+          "order": 1
+        },
+        {
+          "title": "Портфолио",
+          "resources": "github.com, behance.net",
+          "description": "Оформление и презентация выполненных проектов для демонстрации потенциальным работодателям.",
+          "order": 2
+        },
+        {
+          "title": "Отклики, собеседования",
+          "resources": "hh.ru, linkedin.com, glassdoor.com",
+          "description": "Поиск вакансий, отправка откликов, подготовка и прохождение технических собеседований.",
+          "order": 3
+        },
+        {
+          "title": "Тестовые задания",
+          "resources": "codewars.com, leetcode.com, habr.com",
+          "description": "Выполнение тестовых заданий от работодателей, решение алгоритмических задач.",
+          "order": 4
+        }
+      ]
+    }
+  ]
+}

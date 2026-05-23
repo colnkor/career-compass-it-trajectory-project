@@ -22,7 +22,11 @@ export default defineConfig({
       usePolling: true,
     },
     proxy: {
-      "/api": "http://backend:8000",
+      "/api": {
+        target: "http://backend:8000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      }
     },
   },
 })
