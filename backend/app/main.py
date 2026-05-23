@@ -6,7 +6,7 @@ from app.database import init_db
 from app.ml.state import ml_models
 from app.seed import seed_admin
 from app.services.llm_service import init_service as init_llm
-from app.routers import health, recommend, professions, roadmap, auth, questionnaire
+from app.routers import health, recommend, professions, roadmap, auth, questionnaire, user
 import app.routers.admin.questions as adm_questionnaire
 import app.routers.admin.professions as adm_professions
 import app.routers.admin.roadmap as adm_roadmap
@@ -45,12 +45,13 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "http://localhost:443", "http://localhost:80"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+app.include_router(user.router)
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(recommend.router)

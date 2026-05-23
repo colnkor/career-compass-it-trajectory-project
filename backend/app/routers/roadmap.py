@@ -7,6 +7,10 @@ from datetime import datetime, timezone
 
 from app.database import get_db
 from app.models.roadmap import RoadmapPhase, RoadmapTopic
+from app.schemas.llm import TopicExplainRequest, TopicExplainResponse
+from app.core.rate_limiter import explain_rate_limiter
+from app.services.topic_explainer import explain_topic
+from app.services import llm_cache_service
 from app.models.progress import UserProgress
 from app.models.user import User
 from app.schemas.progress import ProgressUpdateRequest
@@ -138,3 +142,84 @@ async def save_progress(
             "updated_at": progress.updated_at
         }
     }
+
+@router.post(
+    "/topic/{topic_id}/explain",
+    response_model=TopicExplainResponse,
+    summary="Подробное объяснение темы от LLM-наставника",
+)
+async def explain_topic_endpoint(
+    topic_id: int,
+    payload: TopicExplainRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    # 1. Rate limiting
+    explain_rate_limiter.check(current_user.id)
+
+    # 2. Пытаемся взять из кэша (свежий)
+    cached, is_stale = await llm_cache_service.get_cached(
+        db, current_user.id, topic_id, allow_stale=False
+    )
+    if cached and not is_stale:
+        return TopicExplainResponse(
+            topic_id=topic_id,
+            profession_id=payload.profession_id,
+            explanation=cached.response_text,
+            cached=True,
+            source=payload.source,
+            stale=False,
+        )
+
+    # 3. Вызываем LLM
+    try:
+        explanation = await explain_topic(
+            db=db,
+            user=current_user,
+            topic_id=topic_id,
+            profession_id=payload.profession_id,
+            source=payload.source.value,
+        )
+    except ValueError as e:
+        # Ошибка валидации (тема не принадлежит профессии и т.п.)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        print(f"ERROR LLM: {e}")
+
+        # 4. Fallback: отдаём stale-кэш, если есть
+        stale_entry, _ = await llm_cache_service.get_cached(
+            db, current_user.id, topic_id, allow_stale=True
+        )
+        if stale_entry:
+            return TopicExplainResponse(
+                topic_id=topic_id,
+                profession_id=payload.profession_id,
+                explanation=stale_entry.response_text,
+                cached=True,
+                source=payload.source,
+                stale=True,
+            )
+
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="LLM-сервис временно недоступен. Попробуйте позже.",
+        )
+
+    # 5. Сохраняем в кэш
+    await llm_cache_service.set_cached(
+        db=db,
+        user_id=current_user.id,
+        topic_id=topic_id,
+        profession_id=payload.profession_id,
+        source=payload.source.value,
+        response_text=explanation,
+    )
+
+    return TopicExplainResponse(
+        topic_id=topic_id,
+        profession_id=payload.profession_id,
+        explanation=explanation,
+        cached=False,
+        source=payload.source,
+        stale=False,
+    )

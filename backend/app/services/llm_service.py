@@ -4,7 +4,7 @@ import httpx
 import os
 
 class LLMService:
-    cert_p = "src/cert/custom_bundle.pem"
+    cert_p = "app/services/cert/custom_bundle.pem"
     GIGACHAT_API = (
         "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
     )
