@@ -4,8 +4,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import init_db
 from app.ml.state import ml_models
-from app.routers import health, recommend, professions, roadmap, auth
-
+from app.seed import seed_admin
+from app.services.llm_service import init_service as init_llm
+from app.routers import health, recommend, professions, roadmap, auth, questionnaire
+import app.routers.admin.questions as adm_questionnaire
+import app.routers.admin.professions as adm_professions
+import app.routers.admin.roadmap as adm_roadmap
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,28 +17,31 @@ async def lifespan(app: FastAPI):
     print("Инициализация базы данных...")
     await init_db()
  
+    print("Создание администратора...")
+    await seed_admin()
+
     # 2. Загружаем ML модели в память
     print("Загружаем ML модели...")
     await ml_models.load()
+
+    print("Поднимаю LLMService")
+    with open("app/services/data/default_sysprmt.txt", "r", encoding="utf-8") as f:
+        await init_llm(f.read())
+
     print("Приложение готово к работе")
- 
+
     yield
  
     print("Остановка — очищаем ресурсы...")
     ml_models.clear()
-
-
 
 app = FastAPI(
     title="Карьерный компас",
     description="Сервис подбора IT-профессий и построения дорожной карты",
     version="0.1.0",
     lifespan=lifespan,
+    redirect_slashes=False,
 )
-
-@app.get("/")
-def read_root():
-    return {"message": "Привет, мир! Это простое FastAPI приложение"}
 
 app.add_middleware(
     CORSMiddleware,
@@ -49,3 +56,7 @@ app.include_router(auth.router)
 app.include_router(recommend.router)
 app.include_router(professions.router)
 app.include_router(roadmap.router)
+app.include_router(questionnaire.router)
+app.include_router(adm_questionnaire.router)
+app.include_router(adm_professions.router)
+app.include_router(adm_roadmap.router)

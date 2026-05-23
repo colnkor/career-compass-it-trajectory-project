@@ -2,7 +2,7 @@ from pathlib import Path
 from app.ml.recommender import CareerRecommender
 
 MODELS_DIR = Path(__file__).parent / "trained"
-RECOMMENDER_PATH = MODELS_DIR / "recommender.pkl"
+RECOMMENDER_PATH = MODELS_DIR / "payload.pkl"
 
 
 class MLModels:

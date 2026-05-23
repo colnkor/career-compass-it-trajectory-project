@@ -1,5 +1,9 @@
 from pydantic import BaseModel, Field, field_validator
 
+class Answer(BaseModel):
+    question_id: int
+    option_ids: list[int] = Field(default=[])
+    free_text: str | None = Field(default=None)
 
 class RecommendRequest(BaseModel):
     free_text: str = Field(
@@ -8,12 +12,7 @@ class RecommendRequest(BaseModel):
         description="Свободный текст из опросника — чем занимаешься, что нравится",
         examples=["Люблю анализировать данные, строить графики и находить закономерности"],
     )
-    traits: list[str] = Field(
-        default=[],
-        max_length=20,
-        description="Черты характера из закрытых вопросов",
-        examples=[["аналитическое мышление", "внимание к деталям"]],
-    )
+    answers: list[Answer] = Field(min_length=1)
 
     @field_validator("free_text")
     @classmethod
@@ -24,12 +23,29 @@ class RecommendRequest(BaseModel):
             raise ValueError("Текст слишком короткий после удаления пробелов. Напиши подробнее.")
         return stripped
 
-    @field_validator("traits")
+    @field_validator("answers")
     @classmethod
-    def traits_must_be_non_empty_strings(cls, v: list[str]) -> list[str]:
-        """Убираем пустые строки из списка черт."""
-        cleaned = [t.strip() for t in v if t.strip()]
-        return cleaned
+    def validate_answers_list(cls, v: list[Answer]) -> list[Answer]:
+        """Проверяем список ответов на уникальность вопросов и заполненность."""
+        seen_questions = set()
+        
+        for answer in v:
+            # 1. Проверка на дубликаты ID вопросов
+            if answer.question_id in seen_questions:
+                raise ValueError(f"Обнаружен дубликат ответа для question_id {answer.question_id}.")
+            seen_questions.add(answer.question_id)
+            
+            # 2. Проверка, что передан хоть какой-то ответ (опции или текст)
+            has_options = len(answer.option_ids) > 0
+            has_text = answer.free_text is not None and bool(answer.free_text.strip())
+            
+            if not (has_options or has_text):
+                raise ValueError(
+                    f"Ответ для question_id {answer.question_id} не может быть пустым. "
+                    f"Заполните либо option_ids, либо free_text."
+                )
+                
+        return v
 
 
 class ProfessionMatch(BaseModel):

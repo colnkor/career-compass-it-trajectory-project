@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, Text, Float
 from sqlalchemy.orm import relationship
 from app.database import Base
 
-
 class Profession(Base):
     __tablename__ = "professions"
 
@@ -16,6 +15,12 @@ class Profession(Base):
     vacancies_count = Column(Integer, nullable=True)
     top_skills = Column(Text, nullable=True)
 
+    # Связи
     progress = relationship("UserProgress", back_populates="profession")
-    roadmap_topics = relationship("RoadmapTopic", back_populates="profession",
-                                  cascade="all, delete", order_by="RoadmapTopic.order")
+    
+    roadmap_phases = relationship(
+        "RoadmapPhase", 
+        back_populates="profession",
+        cascade="all, delete", 
+        order_by="RoadmapPhase.order"
+    )
