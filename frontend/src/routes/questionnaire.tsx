@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { Questionnaire } from '../components/Questionnaire'; // Укажи свой путь к компоненту
+import { Questionnaire } from '../components/questionnaire/Questionnaire'; // Укажи свой путь к компоненту
 import type { Question } from '../types/questionnaire';
 
 export const Route = createFileRoute('/questionnaire')({

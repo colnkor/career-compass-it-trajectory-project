@@ -127,7 +127,13 @@ const handleDelete = async (id: number) => {
     const nextOrder = formData.options.length + 1
     setFormData(prev => ({
       ...prev,
-      options: [...prev.options, { text: '', trait: '', order: nextOrder }]
+      options: [...prev.options, { 
+        id: Date.now(), // временно для key в реакте, пока бэк не сохранил
+        question_id: prev.id, 
+        text: "Новый ответ", 
+        trait: "...", 
+        order: 1 
+      }]
     }))
   }
 

@@ -1,5 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, Field
+from typing import Optional
 
 
 class ExplainSource(str, Enum):
@@ -23,3 +24,15 @@ class TopicExplainResponse(BaseModel):
     cached: bool
     source: ExplainSource
     stale: bool = Field(default=False, description="True, если ответ из истёкшего кэша (LLM недоступна)")
+
+class ChatMessageSchema(BaseModel):
+    role: str  # "user" или "assistant"
+    content: str
+
+class ChatRequest(BaseModel):
+    history: list[ChatMessageSchema]  # Передаем всю историю диалога
+    profession_id: Optional[int] = None
+
+
+class ChatResponse(BaseModel):
+    response: str

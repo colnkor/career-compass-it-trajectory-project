@@ -1,7 +1,7 @@
 export type QuestionType = 'single' | 'multi' | 'free_text';
 
 export interface QuestionOption {
-  id: number;
+  id?: number;
   question_id: number;
   text: string;
   trait: string | null;

@@ -1,8 +1,17 @@
-import { StrictMode } from 'react'
+import { StrictMode, useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import './index.css'
 import { routeTree } from './routeTree.gen'
+import type { User } from './types/user'
+import authFetch from './utils/api'
+
+interface AuthState {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  user: User | null;
+  isLoading: boolean;
+}
 
 const router = createRouter({ 
     routeTree,
@@ -18,11 +27,43 @@ declare module '@tanstack/react-router' {
 }
 
 function App() {
-  const auth = {
-    isAuthenticated: true,
-    isAdmin: true,
-    isLoading: false,
-  }
+  const [auth, setAuth] = useState<AuthState>({
+    isAuthenticated: false,
+    isAdmin: false,
+    user: null,
+    isLoading: true, 
+  });
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await authFetch('/api/users/me'); 
+        
+        if (response.ok) {
+          const userData = await response.json();
+          setAuth({
+            isAuthenticated: true,
+            isAdmin: userData.is_admin,
+            user: userData,
+            isLoading: false,
+          });
+        } else {
+          throw new Error('Not authenticated');
+        }
+      } catch (error) {
+        console.log(error);
+        // Если токена нет, он протух, или сервер вернул 401
+        setAuth({
+          isAuthenticated: false,
+          isAdmin: false,
+          user: null,
+          isLoading: false,
+        });
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   if (auth.isLoading) {
     return <div className="flex h-screen items-center justify-center">Загрузка...</div>
@@ -35,7 +76,7 @@ function App() {
         auth: {
           isAuthenticated: auth.isAuthenticated,
           isAdmin: auth.isAdmin,
-          user: null,
+          user: auth.user,
         }
       }}
     />

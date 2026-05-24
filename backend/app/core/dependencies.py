@@ -2,12 +2,18 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from typing import Optional
+
 from app.database import get_db
 from app.models.user import User
 from app.schemas.token import TokenData
 from app.core.security import decode_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme_optional = OAuth2PasswordBearer(
+    tokenUrl="/auth/login", 
+    auto_error=False
+)
 
 
 async def get_current_user(
@@ -47,6 +53,21 @@ async def get_current_user(
 
     return user
 
+async def get_current_user_optional(
+    token: Optional[str] = Depends(oauth2_scheme_optional),
+    db: AsyncSession = Depends(get_db),
+) -> Optional[User]:
+    """
+    Возвращает пользователя, если передан валидный токен.
+    Если токена нет или он невалиден — возвращает None (без 401).
+    """
+    if not token:
+        return None
+
+    try:
+        return await get_current_user(token=token, db=db)
+    except HTTPException:
+        return None
 
 async def get_current_admin(
     current_user: User = Depends(get_current_user),

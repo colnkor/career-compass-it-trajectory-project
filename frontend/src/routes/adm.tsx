@@ -5,7 +5,7 @@ import { AdminChecker } from '../utils/AdminChecker'
 export const Route = createFileRoute('/adm')({
   beforeLoad: ({ context, location }) => {
     // Если не авторизован ИЛИ не админ — выкидываем отсюда
-    console.log(context);
+    location;
     if (!AdminChecker(context)) {
       throw redirect({
         to: '/',

@@ -77,6 +77,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     localStorage.setItem('refresh_token', data.refresh_token);
     onSuccess?.(data.access_token);
     onClose();
+
+    window.location.reload();
   };
 
   const handleSubmit = async () => {

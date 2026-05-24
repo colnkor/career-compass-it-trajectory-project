@@ -15,6 +15,7 @@ To start frontend container development, do this:
 docker run --rm -it -v ${pwd}:/app oven/bun:1 sh -c "
    cd /app && bun create vite@latest frontend -- --template react-ts
    bun add -d @tailwindcss/vite tailwindcss @tanstack/router-plugin
+   bun add react-markdown remark-gfm
 "
 ```
 After preparation you can easily start frontend-dev section:

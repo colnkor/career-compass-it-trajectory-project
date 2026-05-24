@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '../ui/Button';
-import type { ProfessionResult } from '../../types/profession';
-
+import type { Profession } from '../../types/profession';
 
 // ─── Style maps ───────────────────────────────────────────────────────────────
 
@@ -39,18 +38,33 @@ const parseTags = (raw: string): string[] =>
   raw.split(',').map((t) => t.trim()).filter(Boolean).slice(0, 4);
 
 // ─── Component ────────────────────────────────────────────────────────────────
-
-interface ProfessionCardProps {
-  result: ProfessionResult;
-  index: number;
+ 
+interface ProfessionProgress {
+  done: number;
+  total: number;
+  percent: number;
 }
 
-export const ProfessionCard: React.FC<ProfessionCardProps> = ({ result, index }) => {
+
+interface ProfessionCardProps {
+  profession: Profession;
+  // Опционально — только на странице рекомендаций
+  confidence?: number;  // 0.0 – 1.0
+  index?: number;       // для бейджа и цвета
+  progress?: ProfessionProgress | null;
+}
+
+export const ProfessionCard: React.FC<ProfessionCardProps> = ({
+  profession,
+  confidence,
+  index = 0,
+  progress = null
+}) => {
   const [hovered, setHovered] = useState(false);
-  const { profession, confidence } = result;
+  const hasMatch = confidence !== undefined;
   const styles = rankStyles[getRank(index)];
   const tags = parseTags(profession.tags);
-  const matchPercent = Math.round(confidence * 100);
+  const matchPercent = hasMatch ? Math.round(confidence * 100) : null;
 
   return (
     <div
@@ -64,10 +78,12 @@ export const ProfessionCard: React.FC<ProfessionCardProps> = ({ result, index })
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Badge */}
-      <span className={`self-start text-xs font-medium px-3 py-1 rounded-full ${styles.badge}`}>
-        {styles.label}
-      </span>
+      {/* Badge — только с confidence */}
+      {hasMatch && (
+        <span className={`self-start text-xs font-medium px-3 py-1 rounded-full ${styles.badge}`}>
+          {styles.label}
+        </span>
+      )}
 
       {/* Title */}
       <h3 className="text-white font-bold text-2xl leading-tight tracking-tight">
@@ -93,33 +109,65 @@ export const ProfessionCard: React.FC<ProfessionCardProps> = ({ result, index })
         </div>
       )}
 
-      {/* Match bar */}
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-1.5 rounded-full bg-white/[0.08] overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-700 ${styles.bar}`}
-            style={{ width: `${matchPercent}%` }}
-          />
+      {/* Match bar — только с confidence */}
+      {hasMatch && matchPercent !== null && (
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-1.5 rounded-full bg-white/[0.08] overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${styles.bar}`}
+              style={{ width: `${matchPercent}%` }}
+            />
+          </div>
+          <span className={`text-sm font-semibold tabular-nums ${styles.text}`}>
+            {matchPercent}%
+          </span>
         </div>
-        <span className={`text-sm font-semibold tabular-nums ${styles.text}`}>
-          {matchPercent}%
-        </span>
-      </div>
+      )}
+
+      {/* Progress bar — если есть прогресс пользователя */}
+      {progress !== null && progress.done !== 0 && (
+        <div className="flex flex-col gap-1.5 pt-1 border-t border-white/[0.06]">
+          <div className="flex justify-between items-center text-xs text-gray-500">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+              Прогресс обучения
+            </span>
+            <span className="tabular-nums">
+              {progress.done} / {progress.total}
+              {progress.percent === 100 && (
+                <span className="ml-1.5 text-emerald-400 font-semibold">✓ Завершено</span>
+              )}
+            </span>
+          </div>
+          <div className="h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${
+                progress.percent === 100 ? 'bg-emerald-500' : 'bg-[#6366f1]'
+              }`}
+              style={{ width: `${progress.percent}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Action buttons */}
       <div className="flex gap-3 pt-1">
         <Link
-          to="/roadmap/$professionId"
-          params={{ professionId: String(profession.id) }}
+          to="/roadmap/$professionid"
+          params={{ professionid: String(profession.id) }}
           className="flex-1"
         >
           <Button variant="primary" className="w-full px-3 py-2 text-xs">
-            Начать обучение
+            {progress !== null && progress.done !== 0 && (
+              <p>Продолжить обучение</p>
+            ) ||
+              <p>Начать обучение</p>
+            }
           </Button>
         </Link>
         <Link
-          to="professions/$professionId/market"
-          params={{ professionId: String(profession.id) }}
+          to="/professions/$professionid/market"
+          params={{ professionid: String(profession.id) }}
           className="flex-1"
         >
           <Button variant="secondary" className="w-full px-3 py-2 text-xs">

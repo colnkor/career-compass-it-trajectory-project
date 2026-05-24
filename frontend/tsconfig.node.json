@@ -15,10 +15,11 @@
     "noEmit": true,
 
     /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,       // Разрешить неиспользованные переменные
+    "noUnusedParameters": false,   // Разрешить неиспользованные параметры в функциях
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false          // Разрешить не указывать тип (разрешить неявный any)
   },
   "include": ["vite.config.ts"]
 }

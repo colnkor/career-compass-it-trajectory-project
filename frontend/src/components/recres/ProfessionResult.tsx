@@ -22,7 +22,12 @@ export const ProfessionsResult: React.FC<ProfessionsResultProps> = ({ results })
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
       {results.map((result, i) => (
-        <ProfessionCard key={result.profession.id} result={result} index={i} />
+        <ProfessionCard
+          key={result.profession.id}
+          profession={result.profession}
+          confidence={result.confidence}
+          index={i}
+        />
       ))}
     </div>
 

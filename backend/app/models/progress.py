@@ -10,8 +10,8 @@ class UserProgress(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    profession_id = Column(Integer, ForeignKey("professions.id"), nullable=False)
-    topic_id = Column(Integer, ForeignKey("roadmap_topics.id"), nullable=False)
+    profession_id = Column(Integer, ForeignKey("professions.id", ondelete="CASCADE"), nullable=False)
+    topic_id = Column(Integer, ForeignKey("roadmap_topics.id", ondelete="CASCADE"), nullable=False)
     is_completed = Column(Boolean, default=False)
     completed_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import datetime
 
 class RoadmapTopicAuto(BaseModel):
     title: str = Field(description="Название темы")
@@ -21,7 +22,8 @@ class RoadmapTopicUpdate(RoadmapTopicBase):
 
 class RoadmapTopicResponse(RoadmapTopicBase):
     id: int
-
+    is_completed: Optional[bool] = None
+    completed_at: Optional[datetime] = None
     model_config = {"from_attributes": True}
 
 class RoadmapPhaseBase(BaseModel):
@@ -45,6 +47,9 @@ class RoadmapPhaseResponse(RoadmapPhaseBase):
     id: int
 
     model_config = {"from_attributes": True}
+
+class RoadmapPhaseFullResponse(RoadmapPhaseResponse):
+    topics: list[RoadmapTopicResponse] = Field(default_factory=list)
 
 class RoadmapSeed(BaseModel):
     phases: list[RoadmapPhaseCreateFull] = Field(

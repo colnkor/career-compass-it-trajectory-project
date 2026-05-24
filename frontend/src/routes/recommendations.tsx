@@ -11,8 +11,11 @@ const RECOMMEND_STORAGE_KEY = 'recommend_result';
 // ─── Custom errors ────────────────────────────────────────────────────────────
 
 class RejectedError extends Error {
-  constructor(public reason: string | null) {
+  public reason: string | null;
+
+  constructor(reason: string | null) {
     super('rejected');
+    this.reason = reason;
   }
 }
 

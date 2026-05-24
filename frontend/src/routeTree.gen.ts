@@ -9,17 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as QuestionnaireRouteImport } from './routes/questionnaire'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ProfessionsRouteImport } from './routes/professions'
 import { Route as AdmRouteImport } from './routes/adm'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdmIndexRouteImport } from './routes/adm/index'
+import { Route as ProfessionsIndexRouteImport } from './routes/professions/index'
+import { Route as RoadmapProfessionidRouteImport } from './routes/roadmap/$professionid'
 import { Route as AdmRoadmapRouteImport } from './routes/adm/roadmap'
 import { Route as AdmQuestionnaireRouteImport } from './routes/adm/questionnaire'
 import { Route as AdmProfessionsRouteImport } from './routes/adm/professions'
+import { Route as ProfessionsProfessionidMarketRouteImport } from './routes/professions/$professionid.market'
 
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecommendationsRoute = RecommendationsRouteImport.update({
   id: '/recommendations',
   path: '/recommendations',
@@ -28,6 +36,11 @@ const RecommendationsRoute = RecommendationsRouteImport.update({
 const QuestionnaireRoute = QuestionnaireRouteImport.update({
   id: '/questionnaire',
   path: '/questionnaire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfessionsRoute = ProfessionsRouteImport.update({
@@ -40,20 +53,20 @@ const AdmRoute = AdmRouteImport.update({
   path: '/adm',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdmIndexRoute = AdmIndexRouteImport.update({
+const ProfessionsIndexRoute = ProfessionsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AdmRoute,
+  getParentRoute: () => ProfessionsRoute,
+} as any)
+const RoadmapProfessionidRoute = RoadmapProfessionidRouteImport.update({
+  id: '/$professionid',
+  path: '/$professionid',
+  getParentRoute: () => RoadmapRoute,
 } as any)
 const AdmRoadmapRoute = AdmRoadmapRouteImport.update({
   id: '/roadmap',
@@ -70,92 +83,124 @@ const AdmProfessionsRoute = AdmProfessionsRouteImport.update({
   path: '/professions',
   getParentRoute: () => AdmRoute,
 } as any)
+const ProfessionsProfessionidMarketRoute =
+  ProfessionsProfessionidMarketRouteImport.update({
+    id: '/$professionid/market',
+    path: '/$professionid/market',
+    getParentRoute: () => ProfessionsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/adm': typeof AdmRouteWithChildren
-  '/professions': typeof ProfessionsRoute
+  '/professions': typeof ProfessionsRouteWithChildren
+  '/profile': typeof ProfileRoute
   '/questionnaire': typeof QuestionnaireRoute
   '/recommendations': typeof RecommendationsRoute
+  '/roadmap': typeof RoadmapRouteWithChildren
   '/adm/professions': typeof AdmProfessionsRoute
   '/adm/questionnaire': typeof AdmQuestionnaireRoute
   '/adm/roadmap': typeof AdmRoadmapRoute
-  '/adm/': typeof AdmIndexRoute
+  '/roadmap/$professionid': typeof RoadmapProfessionidRoute
+  '/professions/': typeof ProfessionsIndexRoute
+  '/professions/$professionid/market': typeof ProfessionsProfessionidMarketRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/professions': typeof ProfessionsRoute
+  '/adm': typeof AdmRouteWithChildren
+  '/profile': typeof ProfileRoute
   '/questionnaire': typeof QuestionnaireRoute
   '/recommendations': typeof RecommendationsRoute
+  '/roadmap': typeof RoadmapRouteWithChildren
   '/adm/professions': typeof AdmProfessionsRoute
   '/adm/questionnaire': typeof AdmQuestionnaireRoute
   '/adm/roadmap': typeof AdmRoadmapRoute
-  '/adm': typeof AdmIndexRoute
+  '/roadmap/$professionid': typeof RoadmapProfessionidRoute
+  '/professions': typeof ProfessionsIndexRoute
+  '/professions/$professionid/market': typeof ProfessionsProfessionidMarketRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/adm': typeof AdmRouteWithChildren
-  '/professions': typeof ProfessionsRoute
+  '/professions': typeof ProfessionsRouteWithChildren
+  '/profile': typeof ProfileRoute
   '/questionnaire': typeof QuestionnaireRoute
   '/recommendations': typeof RecommendationsRoute
+  '/roadmap': typeof RoadmapRouteWithChildren
   '/adm/professions': typeof AdmProfessionsRoute
   '/adm/questionnaire': typeof AdmQuestionnaireRoute
   '/adm/roadmap': typeof AdmRoadmapRoute
-  '/adm/': typeof AdmIndexRoute
+  '/roadmap/$professionid': typeof RoadmapProfessionidRoute
+  '/professions/': typeof ProfessionsIndexRoute
+  '/professions/$professionid/market': typeof ProfessionsProfessionidMarketRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
     | '/adm'
     | '/professions'
+    | '/profile'
     | '/questionnaire'
     | '/recommendations'
+    | '/roadmap'
     | '/adm/professions'
     | '/adm/questionnaire'
     | '/adm/roadmap'
-    | '/adm/'
+    | '/roadmap/$professionid'
+    | '/professions/'
+    | '/professions/$professionid/market'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
-    | '/professions'
+    | '/adm'
+    | '/profile'
     | '/questionnaire'
     | '/recommendations'
+    | '/roadmap'
     | '/adm/professions'
     | '/adm/questionnaire'
     | '/adm/roadmap'
-    | '/adm'
+    | '/roadmap/$professionid'
+    | '/professions'
+    | '/professions/$professionid/market'
   id:
     | '__root__'
     | '/'
-    | '/about'
     | '/adm'
     | '/professions'
+    | '/profile'
     | '/questionnaire'
     | '/recommendations'
+    | '/roadmap'
     | '/adm/professions'
     | '/adm/questionnaire'
     | '/adm/roadmap'
-    | '/adm/'
+    | '/roadmap/$professionid'
+    | '/professions/'
+    | '/professions/$professionid/market'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   AdmRoute: typeof AdmRouteWithChildren
-  ProfessionsRoute: typeof ProfessionsRoute
+  ProfessionsRoute: typeof ProfessionsRouteWithChildren
+  ProfileRoute: typeof ProfileRoute
   QuestionnaireRoute: typeof QuestionnaireRoute
   RecommendationsRoute: typeof RecommendationsRoute
+  RoadmapRoute: typeof RoadmapRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/recommendations': {
       id: '/recommendations'
       path: '/recommendations'
@@ -168,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: '/questionnaire'
       fullPath: '/questionnaire'
       preLoaderRoute: typeof QuestionnaireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/professions': {
@@ -184,13 +236,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdmRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -198,12 +243,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/adm/': {
-      id: '/adm/'
+    '/professions/': {
+      id: '/professions/'
       path: '/'
-      fullPath: '/adm/'
-      preLoaderRoute: typeof AdmIndexRouteImport
-      parentRoute: typeof AdmRoute
+      fullPath: '/professions/'
+      preLoaderRoute: typeof ProfessionsIndexRouteImport
+      parentRoute: typeof ProfessionsRoute
+    }
+    '/roadmap/$professionid': {
+      id: '/roadmap/$professionid'
+      path: '/$professionid'
+      fullPath: '/roadmap/$professionid'
+      preLoaderRoute: typeof RoadmapProfessionidRouteImport
+      parentRoute: typeof RoadmapRoute
     }
     '/adm/roadmap': {
       id: '/adm/roadmap'
@@ -226,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdmProfessionsRouteImport
       parentRoute: typeof AdmRoute
     }
+    '/professions/$professionid/market': {
+      id: '/professions/$professionid/market'
+      path: '/$professionid/market'
+      fullPath: '/professions/$professionid/market'
+      preLoaderRoute: typeof ProfessionsProfessionidMarketRouteImport
+      parentRoute: typeof ProfessionsRoute
+    }
   }
 }
 
@@ -233,25 +292,49 @@ interface AdmRouteChildren {
   AdmProfessionsRoute: typeof AdmProfessionsRoute
   AdmQuestionnaireRoute: typeof AdmQuestionnaireRoute
   AdmRoadmapRoute: typeof AdmRoadmapRoute
-  AdmIndexRoute: typeof AdmIndexRoute
 }
 
 const AdmRouteChildren: AdmRouteChildren = {
   AdmProfessionsRoute: AdmProfessionsRoute,
   AdmQuestionnaireRoute: AdmQuestionnaireRoute,
   AdmRoadmapRoute: AdmRoadmapRoute,
-  AdmIndexRoute: AdmIndexRoute,
 }
 
 const AdmRouteWithChildren = AdmRoute._addFileChildren(AdmRouteChildren)
 
+interface ProfessionsRouteChildren {
+  ProfessionsIndexRoute: typeof ProfessionsIndexRoute
+  ProfessionsProfessionidMarketRoute: typeof ProfessionsProfessionidMarketRoute
+}
+
+const ProfessionsRouteChildren: ProfessionsRouteChildren = {
+  ProfessionsIndexRoute: ProfessionsIndexRoute,
+  ProfessionsProfessionidMarketRoute: ProfessionsProfessionidMarketRoute,
+}
+
+const ProfessionsRouteWithChildren = ProfessionsRoute._addFileChildren(
+  ProfessionsRouteChildren,
+)
+
+interface RoadmapRouteChildren {
+  RoadmapProfessionidRoute: typeof RoadmapProfessionidRoute
+}
+
+const RoadmapRouteChildren: RoadmapRouteChildren = {
+  RoadmapProfessionidRoute: RoadmapProfessionidRoute,
+}
+
+const RoadmapRouteWithChildren =
+  RoadmapRoute._addFileChildren(RoadmapRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   AdmRoute: AdmRouteWithChildren,
-  ProfessionsRoute: ProfessionsRoute,
+  ProfessionsRoute: ProfessionsRouteWithChildren,
+  ProfileRoute: ProfileRoute,
   QuestionnaireRoute: QuestionnaireRoute,
   RecommendationsRoute: RecommendationsRoute,
+  RoadmapRoute: RoadmapRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

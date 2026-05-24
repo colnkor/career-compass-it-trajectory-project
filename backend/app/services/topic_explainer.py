@@ -34,7 +34,7 @@ async def _validate_topic_and_profession(
     return topic, topic.phase, topic.phase.profession
 
 
-async def _build_user_progress_summary(
+async def build_user_progress_summary(
     db: AsyncSession, user_id: int, profession_id: int
 ) -> str:
     """Формирует текстовое резюме прогресса пользователя по профессии."""
@@ -95,7 +95,7 @@ async def explain_topic(
     topic, phase, profession = await _validate_topic_and_profession(
         db, topic_id, profession_id
     )
-    progress_summary = await _build_user_progress_summary(db, user.id, profession_id)
+    progress_summary = await build_user_progress_summary(db, user.id, profession_id)
     user_prompt = _build_user_prompt(user, profession, phase, topic, progress_summary, source)
 
     if llm_service.llm_service is None:

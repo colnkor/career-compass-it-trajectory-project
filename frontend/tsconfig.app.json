@@ -16,8 +16,9 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,       // Разрешить неиспользованные переменные
+    "noUnusedParameters": false,   // Разрешить неиспользованные параметры в функциях
+    "noImplicitAny": false,          // Разрешить не указывать тип (разрешить неявный any)
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },

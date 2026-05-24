@@ -11,17 +11,20 @@ const BLANK_PHASE: RoadmapPhase = {
   id: 0,
   profession_id: 0,
   title: '',
-  description: null,
+  description: "",
   order: 1,
+  topics: []
 }
 
 const BLANK_TOPIC: RoadmapTopic = {
   id: 0,
   phase_id: 0,
   title: '',
-  description: null,
-  resources: null,
+  description: "",
+  resources: "",
   order: 1,
+  is_completed: false, 
+  completed_at: null
 }
 
 function RouteComponent() {
@@ -420,8 +423,8 @@ function RouteComponent() {
                 <textarea
                   rows={2}
                   placeholder="Подробный план изучения темы, ключевые концепты..."
-                  value={topicFormData.description ?? ''}
-                  onChange={e => setTopicFormData(prev => ({ ...prev, description: e.target.value || null }))}
+                  value={topicFormData.description ?? ""}
+                  onChange={e => setTopicFormData(prev => ({ ...prev, description: e.target.value || "" }))}
                   className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -431,8 +434,8 @@ function RouteComponent() {
                 <input
                   type="text"
                   placeholder="https://docs.python.org, https://stepik.org/..."
-                  value={topicFormData.resources ?? ''}
-                  onChange={e => setTopicFormData(prev => ({ ...prev, resources: e.target.value || null }))}
+                  value={topicFormData.resources ?? ""}
+                  onChange={e => setTopicFormData(prev => ({ ...prev, resources: e.target.value || "" }))}
                   className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
                 />
               </div>

@@ -6,7 +6,7 @@ from app.database import init_db
 from app.ml.state import ml_models
 from app.seed import seed_admin
 from app.services.llm_service import init_service as init_llm
-from app.routers import health, recommend, professions, roadmap, auth, questionnaire, user
+from app.routers import health, recommend, professions, roadmap, auth, questionnaire, user, llm
 import app.routers.admin.questions as adm_questionnaire
 import app.routers.admin.professions as adm_professions
 import app.routers.admin.roadmap as adm_roadmap
@@ -61,3 +61,4 @@ app.include_router(questionnaire.router)
 app.include_router(adm_questionnaire.router)
 app.include_router(adm_professions.router)
 app.include_router(adm_roadmap.router)
+app.include_router(llm.router)

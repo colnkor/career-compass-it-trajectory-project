@@ -40,9 +40,11 @@ function LandingPage() {
               </Button>
             </Link>
             
-            <Button variant="secondary" className="w-full sm:w-auto px-8 py-4 text-base">
-              Смотреть профессии
-            </Button>
+            <Link to="/professions" className="w-full sm:w-auto">
+              <Button variant="secondary" className="w-full sm:w-auto px-8 py-4 text-base">
+                Смотреть профессии
+              </Button>
+            </Link>
           </div>
         </div>
 

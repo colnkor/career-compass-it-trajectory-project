@@ -5,7 +5,7 @@ from sqlalchemy.future import select
 
 from app.database import get_db
 from app.models.profession import Profession
-from app.schemas.profession import ProfessionsSeed
+from app.schemas.profession import ProfessionsSeed, ProfessionResponse
 
 router = APIRouter(prefix="/professions", tags=["Профессии"])
 
@@ -30,6 +30,23 @@ async def list_professions(db: AsyncSession = Depends(get_db)):
         
     return {"professions": professions_list}
 
+@router.get("/{profession_id}")
+async def get_profession(
+    profession_id: int, db: AsyncSession = Depends(get_db)
+) -> ProfessionResponse:
+    # 1. Получаем профессию из БД по ID
+    stmt = select(Profession).where(Profession.id == profession_id)
+    res = await db.execute(stmt)
+    profession = res.scalar_one_or_none()
+
+    # 2. Если такой профессии нет — отдаем 404
+    if not profession:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Профессия не найдена",
+        )
+    
+    return profession
 
 @router.get("/{profession_id}/market")
 async def profession_market(

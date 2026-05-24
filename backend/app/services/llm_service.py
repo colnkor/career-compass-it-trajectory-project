@@ -46,12 +46,17 @@ class LLMService:
                 )
 
     async def get_answer(self, query: str, shadow_sys: str = None) -> str:
+        return await self.get_answer_chat([{"role": "user", "content": query}])
+
+    async def get_answer_chat(self, messages: list[dict], shadow_sys: str = None) -> str:
         """Получить ответ от модели GigaChat."""
         # Проверяем, инициализирован ли токен и не истек ли он
         if not self.access_token or (int(time.time()) > self.exp_time):
             await self.__get_access_token()
 
         sysprompt = self.system_prompt if shadow_sys == None else shadow_sys 
+
+        payload_messages = [{"role": "system", "content": sysprompt}] + messages
 
         headers = {
             "Content-Type": "application/json",
@@ -61,10 +66,7 @@ class LLMService:
 
         payload = {
             "model": "GigaChat-2",
-            "messages": [
-                {"role": "system", "content": sysprompt},
-                {"role": "user", "content": query},
-            ],
+            "messages": payload_messages,
         }
 
         # Привязываем сертификат для выполнения основного запроса к чату
