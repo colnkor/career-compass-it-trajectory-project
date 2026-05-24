@@ -16,4 +16,3 @@ todos.json
 frontend/bun.lock
 frontend/.cta.json
 backend/database.db
-backend/app/ml/trained
