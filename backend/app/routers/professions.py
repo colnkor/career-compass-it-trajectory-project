@@ -4,7 +4,9 @@ from sqlalchemy import delete
 from sqlalchemy.future import select
 
 from app.database import get_db
+from app.core.dependencies import get_current_admin
 from app.models.profession import Profession
+from app.models.user import User
 from app.schemas.profession import ProfessionsSeed, ProfessionResponse
 
 router = APIRouter(prefix="/professions", tags=["Профессии"])
@@ -80,7 +82,7 @@ async def profession_market(
 async def seed_professions(
     payload: ProfessionsSeed,
     db: AsyncSession = Depends(get_db),
-    # admin: User = Depends(get_current_admin)
+    admin: User = Depends(get_current_admin)
 ) -> dict:
     """
     Заполняет базу данных профессиями из переданного JSON.

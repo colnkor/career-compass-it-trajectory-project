@@ -6,6 +6,7 @@ from sqlalchemy.future import select
 from datetime import datetime, timezone 
 from typing import Optional
 
+from app.core.dependencies import get_current_admin
 from app.database import get_db
 from app.models.roadmap import RoadmapPhase, RoadmapTopic
 from app.schemas.llm import TopicExplainRequest, TopicExplainResponse
@@ -146,7 +147,7 @@ async def get_roadmap(
 async def seed_questionnaire(
     payload: RoadmapSeed,
     db: AsyncSession = Depends(get_db),
-#    admin: User = Depends(get_current_admin)
+    admin: User = Depends(get_current_admin)
 ) -> dict:
     await db.execute(delete(RoadmapTopic))
     await db.execute(delete(RoadmapPhase))

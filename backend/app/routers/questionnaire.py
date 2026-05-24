@@ -39,7 +39,7 @@ async def get_questionnaire(db: AsyncSession = Depends(get_db)) -> list[Question
 async def seed_questionnaire(
     payload: QuestionnaireSeed,
     db: AsyncSession = Depends(get_db),
-#    admin: User = Depends(get_current_admin)
+    admin: User = Depends(get_current_admin)
 ) -> dict:
     """
     Заполняет опросник вопросами из JSON.
