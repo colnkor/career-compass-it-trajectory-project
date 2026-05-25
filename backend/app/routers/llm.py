@@ -85,6 +85,7 @@ async def talk_to_mentor(
             shadow_sys=dynamic_system_prompt
         )
     except Exception as e:
+        print(f'LLM error: {e}')
         # Здесь логгер зафиксирует ошибку GigaChat/сертификатов при необходимости
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
