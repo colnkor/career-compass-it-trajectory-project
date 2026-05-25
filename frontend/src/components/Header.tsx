@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useRouteContext } from '@tanstack/react-router';
 import { Button } from './ui/Button';
 import { AuthModal } from './AuthModal';
+import { LogoutModal } from './profile/modals/LogoutAccountModal';
 
 function getInitials(name: string): string {
   return name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
@@ -9,6 +10,7 @@ function getInitials(name: string): string {
 
 export const Header: React.FC = () => {
   const [authOpen, setAuthOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
 
   const { auth } = useRouteContext({ from: '__root__' });
@@ -16,6 +18,10 @@ export const Header: React.FC = () => {
   const openAuth = (mode: 'login' | 'register') => {
     setAuthMode(mode);
     setAuthOpen(true);
+  };
+
+  const openLogout = () => {
+    setLogoutOpen(true);
   };
 
   return (
@@ -32,20 +38,26 @@ export const Header: React.FC = () => {
       <nav className="flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-muted text-[0.86rem] font-medium gap-8">
         <Link to="/questionnaire" className="hover:text-text transition-colors duration-180">Опросник</Link>
         <Link to="/professions"   className="hover:text-text transition-colors duration-180">Профессии</Link>
+        <Link to="/recommendations"   className="hover:text-text transition-colors duration-180">Рекомендация</Link>
       </nav>
  
       {/* Right side */}
       <div className="ml-auto flex items-center gap-3">
         {auth.isAuthenticated ? (
-          <Link
-            to="/profile"
-            className="flex items-center gap-2 px-[15px] pl-2 py-[6px] rounded-full border border-white/10 bg-[rgba(30,33,48,0.65)] text-[#d9dce5] transition-all duration-180 hover:border-accent-light/34 hover:bg-[rgba(38,39,55,0.85)]"
-          >
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-accent-light flex items-center justify-center text-[0.7rem] font-bold text-white shrink-0">
-              {auth.user ? getInitials(auth.user.full_name) : '?'}
-            </div>
-            <span className="text-sm hidden sm:block">Мой профиль</span>
-          </Link>
+          <div>
+            <Link
+              to="/profile"
+              className="flex items-center gap-2 px-[15px] pl-2 py-[6px] rounded-full border border-white/10 bg-[rgba(30,33,48,0.65)] text-[#d9dce5] transition-all duration-180 hover:border-accent-light/34 hover:bg-[rgba(38,39,55,0.85)]"
+            >
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-accent-light flex items-center justify-center text-[0.7rem] font-bold text-white shrink-0">
+                {auth.user ? getInitials(auth.user.full_name) : '?'}
+              </div>
+              <span className="text-sm hidden sm:block">Мой профиль</span>
+            </Link>
+            <Button variant="outline" className="px-4 py-2" onClick={() => openLogout()}>
+              Выйти
+            </Button>
+          </div>
         ) : (
           <>
             <Button variant="outline" className="px-4 py-2" onClick={() => openAuth('login')}>
@@ -64,6 +76,9 @@ export const Header: React.FC = () => {
         mode={authMode}
         onModeChange={setAuthMode}
         showOAuth={false}
+      />
+      <LogoutModal
+        onClose={() => setLogoutOpen(false)}
       />
     </header>
   );

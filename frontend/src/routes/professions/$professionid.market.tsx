@@ -77,7 +77,7 @@ function MarketPage() {
               Поиск работы
             </span>
             <span className="text-white text-sm font-medium mt-3">
-              Открыть на hh.ru →
+              Открыть на hh.ru
             </span>
           </a>
         </div>

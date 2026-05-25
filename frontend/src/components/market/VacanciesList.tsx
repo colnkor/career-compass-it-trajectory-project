@@ -40,7 +40,7 @@ export const VacanciesList: React.FC<VacanciesListProps> = ({
         rel="noopener noreferrer"
         className="text-xs text-[#818cf8] hover:text-white transition-colors"
       >
-        Все {new Intl.NumberFormat('ru-RU').format(totalCount)} на hh.ru →
+        Все {new Intl.NumberFormat('ru-RU').format(totalCount)} на hh.ru
       </a>
     </div>
 
@@ -85,7 +85,7 @@ function EmptyVacancies({ hhUrl, totalCount }: { hhUrl: string; totalCount: numb
         rel="noopener noreferrer"
         className="px-4 py-2 text-sm rounded-xl bg-[#6366f1] hover:bg-[#4f46e5] text-white transition-colors"
       >
-        Смотреть {new Intl.NumberFormat('ru-RU').format(totalCount)} вакансий →
+        Смотреть {new Intl.NumberFormat('ru-RU').format(totalCount)} вакансий
       </a>
     </div>
   );
