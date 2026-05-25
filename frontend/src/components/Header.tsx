@@ -38,13 +38,12 @@ export const Header: React.FC = () => {
       <nav className="flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-muted text-[0.86rem] font-medium gap-8">
         <Link to="/questionnaire" className="hover:text-text transition-colors duration-180">Опросник</Link>
         <Link to="/professions"   className="hover:text-text transition-colors duration-180">Профессии</Link>
-        <Link to="/recommendations"   className="hover:text-text transition-colors duration-180">Рекомендация</Link>
       </nav>
  
       {/* Right side */}
       <div className="ml-auto flex items-center gap-3">
         {auth.isAuthenticated ? (
-          <div>
+          <>
             <Link
               to="/profile"
               className="flex items-center gap-2 px-[15px] pl-2 py-[6px] rounded-full border border-white/10 bg-[rgba(30,33,48,0.65)] text-[#d9dce5] transition-all duration-180 hover:border-accent-light/34 hover:bg-[rgba(38,39,55,0.85)]"
@@ -57,7 +56,7 @@ export const Header: React.FC = () => {
             <Button variant="outline" className="px-4 py-2" onClick={() => openLogout()}>
               Выйти
             </Button>
-          </div>
+          </>
         ) : (
           <>
             <Button variant="outline" className="px-4 py-2" onClick={() => openAuth('login')}>
@@ -78,6 +77,7 @@ export const Header: React.FC = () => {
         showOAuth={false}
       />
       <LogoutModal
+        isOpen={logoutOpen}
         onClose={() => setLogoutOpen(false)}
       />
     </header>
