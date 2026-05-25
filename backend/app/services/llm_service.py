@@ -38,7 +38,7 @@ class LLMService:
 
             if response.status_code == 200:
                 data = response.json()
-                self.exp_time = data["expires_at"]
+                self.exp_time = data["expires_at"] / 1000
                 self.access_token = data["access_token"]
             else:
                 raise Exception(
@@ -51,7 +51,7 @@ class LLMService:
     async def get_answer_chat(self, messages: list[dict], shadow_sys: str = None) -> str:
         """Получить ответ от модели GigaChat."""
         # Проверяем, инициализирован ли токен и не истек ли он
-        if not self.access_token or (int(time.time()) > self.exp_time):
+        if not self.access_token or (int(time.time()) + 60 > self.exp_time):
             await self.__get_access_token()
 
         sysprompt = self.system_prompt if shadow_sys == None else shadow_sys 
