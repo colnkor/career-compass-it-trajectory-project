@@ -46,7 +46,7 @@ export const Questionnaire: React.FC = () => {
   const [answers, setAnswers] = useState<QuestionnaireAnswers>(() => {
     const res = sessionStorage.getItem(RECOMMEND_STORAGE_KEY);
     const savedDraft = sessionStorage.getItem(ANSWERS_DRAFT_KEY);
-    if (savedDraft && res["status"] !== "accepted") {
+    if (savedDraft && res && res["status"] !== "accepted") {
       try {
         return JSON.parse(savedDraft);
       } catch (e) {
