@@ -31,13 +31,14 @@ function MarketPage() {
     : [];
 
   return (
-    <div className="min-h-screen bg-[#080910] text-white">
+    <div className="min-h-screen text-white">
+      <div className="aurora-bg" />
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-12 flex flex-col gap-8">
 
         {/* Breadcrumb + title */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 z-1">
           <Link
             to="/professions"
             params={{ professionid: String(data.id) }}
@@ -53,7 +54,7 @@ function MarketPage() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 z-1">
           <StatCard
             label="Вакансий на рынке"
             value={new Intl.NumberFormat('ru-RU').format(data.vacancies_count)}
@@ -88,7 +89,7 @@ function MarketPage() {
 
         {/* Top skills */}
         {skills.length > 0 && (
-          <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-6 flex flex-col gap-5">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-6 flex flex-col gap-5 z-1">
             <h2 className="text-[10px] font-semibold tracking-[0.15em] text-gray-500 uppercase">
               Топ навыков в вакансиях
             </h2>

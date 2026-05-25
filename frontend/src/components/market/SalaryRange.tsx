@@ -28,7 +28,7 @@ export const SalaryRange: React.FC<SalaryRangeProps> = ({ medianSalary }) => {
   const seniorEndPct = pct(seniorEnd, junior, senior);
 
   return (
-    <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-6 flex flex-col gap-6">
+    <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-6 flex flex-col gap-6 z-1">
       <h2 className="text-[10px] font-semibold tracking-[0.15em] text-gray-500 uppercase">
         Зарплатная вилка
       </h2>

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Route } from '../../routes/questionnaire';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link, redirect, useNavigate } from '@tanstack/react-router';
 import { Button } from '../ui/Button';
 import { InputField } from '../ui/InputField';
 import { RadioField } from '../ui/RadioField';
@@ -12,6 +12,7 @@ import type { RecommendResponse } from '../../types/recommendation';
 
 const SECTION_ICONS = ['🎯','🛠️','🏆','⏰','💼','📚','🚀','💡','📈','🤝','🧠','📝'];
 const RECOMMEND_STORAGE_KEY = 'recommend_result';
+const ANSWERS_DRAFT_KEY = 'questionnaire_answers_draft';
 
 const isAnswered = (question: Question, answers: QuestionnaireAnswers): boolean => {
   const answer = answers[question.id];
@@ -42,8 +43,20 @@ export const Questionnaire: React.FC = () => {
   const questions: Question[] = Route.useLoaderData();
   const navigate = useNavigate();
 
+  const [answers, setAnswers] = useState<QuestionnaireAnswers>(() => {
+    const res = sessionStorage.getItem(RECOMMEND_STORAGE_KEY);
+    const savedDraft = sessionStorage.getItem(ANSWERS_DRAFT_KEY);
+    if (savedDraft && res["status"] !== "accepted") {
+      try {
+        return JSON.parse(savedDraft);
+      } catch (e) {
+        console.error("Ошибка парсинга черновика ответов:", e);
+      }
+    }
+    return {};
+  });
+
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [answers, setAnswers] = useState<QuestionnaireAnswers>({});
   const [validationError, setValidationError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -92,6 +105,8 @@ export const Questionnaire: React.FC = () => {
       setValidationError('Пожалуйста, ответьте на этот вопрос.');
       return;
     }
+
+    sessionStorage.setItem(ANSWERS_DRAFT_KEY, JSON.stringify(answers));
 
     setIsSubmitting(true);
     setValidationError(null);
@@ -146,8 +161,8 @@ export const Questionnaire: React.FC = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-[#0a0b10] text-gray-300 font-sans antialiased selection:bg-[#6366f1]/30">
-
+    <div className="min-h-screen text-gray-300 font-sans antialiased selection:bg-[#6366f1]/30">
+      <div className="aurora-bg" />
       {/* Мобильный оверлей сайдбара */}
       {sidebarOpen && (
         <div
@@ -174,7 +189,7 @@ export const Questionnaire: React.FC = () => {
       </div>
 
       {/* Шапка */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-4 flex items-center justify-between border-b border-white/5 pb-3 gap-4">
+      <div className="relative z-2 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-4 flex items-center justify-between border-b border-white/5 pb-3 gap-4">
         {/* Левая часть: лого + гамбургер */}
         <div className="flex items-center gap-3 shrink-0">
           {/* Гамбургер — только на мобиле */}
@@ -193,7 +208,7 @@ export const Questionnaire: React.FC = () => {
         </div>
 
         {/* Центр: прогресс — скрываем точки если не влезают, показываем счётчик */}
-        <div className="flex-1 flex justify-center overflow-hidden">
+        <div className="relative z-2 flex-1 flex justify-center overflow-hidden">
           {/* На широких экранах — точки */}
           <div className="hidden md:flex">
             <StepProgressDots
@@ -204,21 +219,22 @@ export const Questionnaire: React.FC = () => {
           </div>
           {/* На узких — текстовый счётчик */}
           <div className="flex md:hidden items-center gap-2 text-xs text-gray-400">
-            <span className="text-[#6366f1] font-bold">{currentStep + 1}</span>
+            <span className="text-[#6366f1] font-bold">{answeredIndices.size}</span>
             <span>/</span>
             <span>{questions.length}</span>
             <span className="text-gray-600">вопросов</span>
           </div>
         </div>
 
-        {/* Правая часть: кнопка назад — скрыта на первом шаге */}
-        <Button variant="outline" className="px-3 py-1.5 text-xs" onClick={() => window.history.back()}>
-          ← Назад
-        </Button>
+        <Link to="/">
+          <Button variant="outline" className="px-3 py-1.5 text-xs">
+            На главную
+          </Button>
+        </Link>
       </div>
 
       {/* Основная сетка */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 flex gap-8">
+      <div className="z-2 relative w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 flex gap-8">
         {/* Десктопный сайдбар */}
         <div className="hidden lg:block">
           <QuestionnaireSidebar
@@ -281,7 +297,7 @@ export const Questionnaire: React.FC = () => {
           <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
             {!isFirstStep && (
               <Button variant="outline" onClick={handleBack} disabled={isSubmitting}>
-                ← Назад
+                Назад
               </Button>
             )}
             <Button
@@ -290,7 +306,7 @@ export const Questionnaire: React.FC = () => {
               onClick={handleNext}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Отправляем…' : isLastStep ? 'Завершить' : 'Далее →'}
+              {isSubmitting ? 'Отправляем…' : isLastStep ? 'Завершить' : 'Далее'}
             </Button>
           </div>
         </main>

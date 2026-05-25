@@ -64,11 +64,12 @@ function ProfessionsPage() {
 
   return (
     <div className="min-h-screen bg-[#080910] text-white">
+      <div className="aurora-bg" />
       <Header />
       <main className="max-w-7xl mx-auto px-6 py-14 flex flex-col gap-10">
-
+      
         {/* Heading */}
-        <div className="flex flex-col gap-2">
+        <div className="z-2 flex flex-col gap-2">
           <h1 className="text-4xl font-bold tracking-tight">Все профессии</h1>
           <p className="text-gray-400 text-base">
             <span className="text-[#818cf8] font-medium">{professions.length}</span>{' '}

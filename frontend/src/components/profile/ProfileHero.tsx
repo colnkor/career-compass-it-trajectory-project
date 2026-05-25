@@ -12,7 +12,7 @@ function getInitials(name: string): string {
 }
 
 export const ProfileHero: React.FC<ProfileHeroProps> = ({ user, completedCount, daysInIT }) => (
-  <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+  <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 z-1">
     {/* Avatar */}
     <div className="w-20 h-20 rounded-full bg-[#6366f1]/20 border-2 border-[#6366f1]/40 flex items-center justify-center shrink-0">
       <span className="text-2xl font-bold text-[#818cf8]">{getInitials(user.full_name)}</span>

@@ -32,7 +32,7 @@ export const ModalBase: React.FC<ModalBaseProps> = ({ title, onClose, children }
           <h2 className="text-white font-semibold text-lg">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-white transition-colors text-xl leading-none"
+            className="cursor-pointer text-gray-500 hover:text-white transition-colors text-xl leading-none"
           >
             ✕
           </button>

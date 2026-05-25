@@ -74,6 +74,7 @@ function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#080910] text-white">
+      <div className="aurora-bg" />
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-12 flex flex-col gap-6">
@@ -81,7 +82,7 @@ function ProfilePage() {
         <ProfileHero user={user} completedCount={completedCount} daysInIT={daysInIT} />
 
         {/* Two-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 z-1">
           {/* Left column */}
           <div className="flex flex-col gap-6">
             <FavoriteProfessions items={professionItems} />

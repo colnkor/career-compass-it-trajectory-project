@@ -47,7 +47,7 @@ export const SettingsBlock: React.FC<SettingsBlockProps> = ({ user, onUserUpdate
         <div className="pt-4 border-t border-white/[0.06]">
           <button
             onClick={() => setModal('delete')}
-            className="text-sm text-red-400/70 hover:text-red-400 transition-colors"
+            className="cursor-pointer text-sm text-red-400/70 hover:text-red-400 transition-colors"
           >
             Удалить аккаунт
           </button>
@@ -98,7 +98,7 @@ function SettingRow({
       </div>
       <button
         onClick={onAction}
-        className="text-xs text-[#818cf8] hover:text-white transition-colors"
+        className="cursor-pointer text-xs text-[#818cf8] hover:text-white transition-colors"
       >
         {action}
       </button>

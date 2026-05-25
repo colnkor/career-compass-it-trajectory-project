@@ -28,7 +28,7 @@ export const VacanciesList: React.FC<VacanciesListProps> = ({
   totalCount,
   hhUrl,
 }) => (
-  <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-6 flex flex-col gap-5">
+  <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-6 flex flex-col gap-5 z-1">
     {/* Header */}
     <div className="flex items-center justify-between">
       <h2 className="text-[10px] font-semibold tracking-[0.15em] text-gray-500 uppercase">

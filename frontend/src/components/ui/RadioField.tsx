@@ -9,34 +9,41 @@ interface RadioFieldProps {
   onChange: () => void;
 }
 
-export const RadioField: React.FC<RadioFieldProps> = ({ id, name, text, icon, checked, onChange }) => {
-  return (
-    <label
-      htmlFor={String(id)}
-      className={`w-full flex items-center justify-between p-4 rounded-xl cursor-pointer border transition-all duration-200
-        ${checked 
-          ? 'bg-[#6366f1]/5 border-[#6366f1] shadow-[0_0_15px_rgba(99,102,241,0.1)]' 
-          : 'bg-[#11121a]/60 border-transparent hover:border-gray-800'
-        }`}
-    >
-      <div className="flex items-center gap-4">
-        {icon && <span className="text-xl">{icon}</span>}
-        <span className="text-sm font-medium text-gray-200">{text}</span>
-      </div>
-      <input
-        type="radio"
-        id={String(id)}
-        name={name}
-        checked={checked}
-        onChange={onChange}
-        className="hidden"
-      />
-      {/* Кастомный Radio круг */}
-      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200
-        ${checked ? 'border-[#6366f1]' : 'border-gray-700'}`}
-      >
-        {checked && <div className="w-2.5 h-2.5 rounded-full bg-[#6366f1]" />}
-      </div>
-    </label>
-  );
-};
+export const RadioField: React.FC<RadioFieldProps> = ({ id, name, text, icon, checked, onChange }) => (
+  <label
+    htmlFor={String(id)}
+    className={`
+      w-full flex items-center justify-between gap-4
+      px-5 py-4 rounded-2xl border cursor-pointer
+      backdrop-blur-sm transition-all duration-200
+      ${checked
+        ? 'bg-accent/10 border-accent-light/40 shadow-[0_0_0_1px_rgba(175,169,236,0.15)]'
+        : 'bg-card border-border-soft hover:border-accent-light/20 hover:bg-[rgba(83,74,183,0.07)]'
+      }
+    `}
+  >
+    <input
+      type="radio"
+      id={String(id)}
+      name={name}
+      checked={checked}
+      onChange={onChange}
+      className="sr-only"
+    />
+
+    <div className="flex items-center gap-3 min-w-0">
+      {icon && <span className="text-xl shrink-0">{icon}</span>}
+      <span className={`text-sm font-medium leading-snug transition-colors duration-200 ${checked ? 'text-text' : 'text-[#c4c8d8]'}`}>
+        {text}
+      </span>
+    </div>
+
+    {/* Custom radio */}
+    <div className={`
+      w-5 h-5 shrink-0 rounded-full border-2 flex items-center justify-center transition-all duration-200
+      ${checked ? 'border-accent-light bg-accent' : 'border-border bg-transparent'}
+    `}>
+      {checked && <div className="w-2 h-2 rounded-full bg-white" />}
+    </div>
+  </label>
+);

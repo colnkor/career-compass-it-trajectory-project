@@ -20,7 +20,7 @@ const HOW_IT_WORKS_STEPS = [
 ];
 
 export const HowItWorks: React.FC = () => (
-  <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-8 flex flex-col gap-6">
+  <div className="rounded-2xl border border-white/[0.08] bg-[#0d0e18] p-8 flex flex-col gap-6 z-1">
     {/* Header */}
     <div>
       <h2 className="text-xl font-bold text-white">Как это работает? Рекомендации</h2>

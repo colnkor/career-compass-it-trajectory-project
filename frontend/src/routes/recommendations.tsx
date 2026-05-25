@@ -74,6 +74,7 @@ function RecommendationsPage() {
 
   return (
     <div className="min-h-screen bg-[#080910] text-white">
+      <div className="aurora-bg" />
       <Header />
       <ProfessionsResult results={results} />
     </div>
@@ -151,12 +152,13 @@ function ErrorState({ error }: { error: Error }) {
               Попробовать снова
             </button>
           )}
-          <Link
-            to="/questionnaire"
-            className="px-4 py-2 text-sm rounded-xl border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
-          >
-            Пройти опросник
-          </Link>
+       <Link
+          to="/questionnaire"
+          className="px-4 py-2 text-sm rounded-xl border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
+        >
+          {/* Меняем текст динамически: если произошла ошибка, у человека остался черновик */}
+          {isNoResult ? 'Перейти к опроснику' : 'Исправить ответы'}
+        </Link>
         </div>
       </div>
     </div>
