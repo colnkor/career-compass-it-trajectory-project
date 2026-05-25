@@ -7,6 +7,7 @@ import type { Profession, ProfessionResult } from '../types/profession';
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const RECOMMEND_STORAGE_KEY = 'recommend_result';
+const ANSWERS_DRAFT_KEY = 'questionnaire_answers_draft';
 
 // ─── Custom errors ────────────────────────────────────────────────────────────
 
@@ -45,6 +46,8 @@ export const Route = createFileRoute('/recommendations')({
     if (!response.ok) {
       throw new Error(`Не удалось загрузить данные профессий (${response.status})`);
     }
+
+    sessionStorage.removeItem(ANSWERS_DRAFT_KEY)
 
     const { professions }: { professions: Profession[] } = await response.json();
 

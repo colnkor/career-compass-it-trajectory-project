@@ -126,7 +126,6 @@ export const Questionnaire: React.FC = () => {
 
       const result: RecommendResponse = await response.json();
       sessionStorage.setItem(RECOMMEND_STORAGE_KEY, JSON.stringify(result));
-      sessionStorage.removeItem(ANSWERS_DRAFT_KEY)
       navigate({ to: '/recommendations' });
     } catch (err) {
       setValidationError(err instanceof Error ? err.message : 'Не удалось отправить ответы. Попробуйте ещё раз.');
