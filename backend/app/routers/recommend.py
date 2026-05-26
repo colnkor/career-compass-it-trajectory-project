@@ -83,15 +83,19 @@ async def recommend_professions(
         )
 
     # Извлекаем текст из открытого вопроса
-    free_text_answer = next(
-        (a.free_text for a in request.answers if a.free_text),
-        None,
-    )
-    if not free_text_answer:
+    texts_from_answers = [
+        a.free_text.strip() 
+        for a in request.answers 
+        if a.free_text and a.free_text.strip()
+    ]
+
+    if not texts_from_answers:
         raise HTTPException(
             status_code=422,
             detail="Не найден ответ на открытый вопрос.",
         )
+
+    free_text_answer = " ".join(texts_from_answers)
 
     # Вычисляем трейт-профиль (добавлен await, так как функция стала асинхронной)
     trait_scores = await compute_trait_scores(request.answers, db)
