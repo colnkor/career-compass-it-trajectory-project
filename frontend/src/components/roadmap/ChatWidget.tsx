@@ -39,6 +39,19 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // Сбрасываем историю при смене топика (чат уже открыт)
+  useEffect(() => {
+    setHistory(
+      initialTopic
+        ? [
+            { role: 'user', content: `Объясни мне тему: ${initialTopic.title}` },
+            { role: 'assistant', content: initialTopic.explanation },
+          ]
+        : []
+    );
+    setError(null);
+  }, [initialTopic]);
+
   // Скролл вниз при новых сообщениях
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });

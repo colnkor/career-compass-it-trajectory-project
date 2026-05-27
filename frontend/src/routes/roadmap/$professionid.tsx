@@ -50,6 +50,7 @@ function RoadmapPage() {
     )
   );
   const [activePhaseId, setActivePhaseId] = useState<number>(() => phases[0]?.id ?? 0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [chatTopic, setChatTopic] = useState<{ title: string; explanation: string } | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
@@ -97,10 +98,31 @@ function RoadmapPage() {
             activePhaseId={activePhaseId}
             completedTopics={completedTopics}
             onPhaseClick={setActivePhaseId}
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
           />
 
           {/* Main */}
           <main className="flex-1 min-w-0 flex flex-col gap-8">
+            {/* Mobile top bar */}
+            <div className="flex items-center gap-3 lg:hidden">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border-soft bg-card text-muted hover:text-text hover:border-accent-light/30 transition-all text-sm"
+              >
+                {/* Hamburger icon */}
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <span>Фазы</span>
+              </button>
+              {/* Active phase name on mobile */}
+              {activePhase && (
+                <span className="text-sm text-muted truncate">
+                  Фаза {phaseIdx + 1} · {activePhase.title}
+                </span>
+              )}
+            </div>
             {/* Progress bar */}
             <div className="flex flex-col gap-2 p-5 rounded-[18px] border border-border-soft bg-card backdrop-blur-sm">
               <div className="flex justify-between text-xs text-muted">
